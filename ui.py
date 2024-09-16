@@ -2,9 +2,8 @@ class ui :
     @classmethod
     def menu(cls, lst) : 
         for i in range(len(lst)) :
-            print(str(i + 1) + ".", lst[i])
-        print("type q to quit")
-
+            print(lst[i])
+        
         user_choice = input("-> ")
         return user_choice
 

@@ -14,14 +14,18 @@ class contacts :
             print(msg)
 
     def load_data(self) : 
-        js_str = open(self.savedir, "r").read()
-        JSdata = json.loads(js_str)
-
+        try :
+            js_str = open(self.savedir, "r").read()
+            JSdata = json.loads(js_str)
+        except FileNotFoundError:
+            self.save_data(data_file=[])
+            js_str = open(self.savedir, "r").read()
+            JSdata = json.loads(js_str)
+            
         return JSdata  
 
     def new(self) : 
         JSdata = self.load_data()
-
         ui.print_style()
         name_inpt = input("Enter Name: ")
         phone_inpt = input("Enter Phone Number: ")
@@ -32,7 +36,8 @@ class contacts :
 
         for i in range(len(JSdata)) :
             saved_data.append(JSdata[i])
-            id_lst.append(JSdata[i]["id"])
+            if JSdata[i]["id"] :
+                id_lst.append(JSdata[i]["id"])
 
         if len(id_lst) >= 1 : id = max(id_lst) + 1 
         else : id = 1
@@ -72,35 +77,36 @@ class contacts :
         JSdata = self.load_data()
         
         ui.print_style()
-        name_inpt = input("Enter an ID")
-     
+        name_inpt = input("Enter an ID:")
         found = False
-        update_method = ui.menu(["delete" "update"])
-
         for i in range(len(JSdata)) :
-                
-            if JSdata[i]["id"] == int(name_inpt):
-                id_lc = i
-                found = True
-            
+            try :   
+                if JSdata[i]["id"] == int(name_inpt):
+                    id_lc = i
+                    found = True
+            except :
+                print("Invalid ID")
+                break
         if not found :
-            print(name_inpt, "not found!")
+            print("Id: ", name_inpt, "not found!")
+        else :
+            print(f"You selected {JSdata[id_lc]['name']}")
+            update_method = ui.menu(["delete", "update"])
+            if update_method == "1" :
+                    JSdata.pop(id_lc)
+                    self.save_data(JSdata)
+                    
+            elif update_method == "2" :
+                    print("Type in the new value of what you want to change")
+                    name = input("Name: ")
+                    phone = input("Phone Number: ")
+                    email = input("Email: ")
 
-        if int(update_method) == 1 :
-                JSdata.pop(id_lc)
-                self.save_data(JSdata)
-                
-        elif int(update_method) == 2 :
-                print("Type in the new value of what you want to change")
-                name = input("Name: ")
-                phone = input("Phone Number: ")
-                email = input("Email: ")
+                    JSdata[i]["name"] = name
+                    JSdata[i]["phone"] = phone
+                    JSdata[i]["email"] = email
 
-                JSdata[i]["name"] = name
-                JSdata[i]["phone"] = phone
-                JSdata[i]["email"] = email
-
-                self.save_data(JSdata)
+                    self.save_data(JSdata)
 
     def display(self) : 
         JSdata = self.load_data()
