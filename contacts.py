@@ -1,5 +1,6 @@
 import json
 from ui import ui
+from utilities import * 
 
 class contacts :
     def __init__(self, name,  dir_input) :
@@ -26,45 +27,52 @@ class contacts :
 
     def new(self) : 
         JSdata = self.load_data()
-        ui.print_style()
+        print_style()
         name_inpt = input("Enter Name: ")
         phone_inpt = input("Enter Phone Number: ")
         email_inpt = input("Enter Email Address: ")
 
-        saved_data = list()
-        id_lst = list()
+        if is_phone(phone_inpt) :
+            if is_email(email_inpt) :
+                saved_data = list()
+                id_lst = list()
 
-        for i in range(len(JSdata)) :
-            saved_data.append(JSdata[i])
-            if JSdata[i]["id"] :
-                id_lst.append(JSdata[i]["id"])
+                for i in range(len(JSdata)) :
+                    saved_data.append(JSdata[i])
+                    if JSdata[i]["id"] :
+                        id_lst.append(JSdata[i]["id"])
 
-        if len(id_lst) >= 1 : id = max(id_lst) + 1 
-        else : id = 1
+                if len(id_lst) >= 1 : id = max(id_lst) + 1 
+                else : id = 1
+                
+                contact = [
+                    {
+                        "id" : id,
+                        "name": name_inpt, 
+                        "phone": phone_inpt,
+                        "email": email_inpt
+                    }
+                ]
+
+                saved_data.append(contact[0])
+                self.save_data(saved_data)
+            else :
+                print("\033[91mYou didn't enter a valid email\033[0m")
+        else :
+            print("\033[91mYou didn't enter a valid phone nr\033[0m")
         
-        contact = [
-            {
-                "id" : id,
-                "name": name_inpt, 
-                "phone": phone_inpt,
-                "email": email_inpt
-            }
-        ]
-
-        saved_data.append(contact[0])
-        self.save_data(saved_data)
 
     def search(self) :  
         JSdata = self.load_data()
         
-        ui.print_style()
+        print_style()
         name_inpt = input("Enter a name: ")
         found = False
 
         for item in JSdata :
         
             if item["name"].lower() == name_inpt.lower() :
-                ui.print_style(2, "text_line", "Contact Found:")
+                print_style(2, "text_line", "Contact Found:")
                 print("id: ", item["id"], "\nName: ", item["name"], "\nPhone Number: ", item["phone"], "\nEmail: ", item["email"])
                 found = True
             else : 
@@ -76,8 +84,8 @@ class contacts :
     def update(self) : 
         JSdata = self.load_data()
         
-        ui.print_style()
-        name_inpt = input("Enter an ID:")
+        print_style()
+        name_inpt = input("Enter an ID: ")
         found = False
         for i in range(len(JSdata)) :
             try :   
@@ -91,7 +99,7 @@ class contacts :
             print("Id: ", name_inpt, "not found!")
         else :
             print(f"You selected {JSdata[id_lc]['name']}")
-            update_method = ui.menu(["delete", "update"])
+            update_method = ui.menu(["1. delete", "2. update"])
             if update_method == "1" :
                     JSdata.pop(id_lc)
                     self.save_data(JSdata)
@@ -102,15 +110,21 @@ class contacts :
                     phone = input("Phone Number: ")
                     email = input("Email: ")
 
-                    JSdata[i]["name"] = name
-                    JSdata[i]["phone"] = phone
-                    JSdata[i]["email"] = email
+                    if is_phone(phone) :
+                        if is_email(email) :
+                            JSdata[i]["name"] = name
+                            JSdata[i]["phone"] = phone
+                            JSdata[i]["email"] = email
 
-                    self.save_data(JSdata)
+                            self.save_data(JSdata)
+                        else :
+                            print("\033[91mYou didn't enter a valid email\033[0m")
+                    else :
+                        print("\033[91mYou didn't enter a valid phone nr\033[0m")
 
     def display(self) : 
         JSdata = self.load_data()
-        ui.print_style(type_I="text_line", msg="Your contact list")
+        print_style(type_I="text_line", msg="Your contact list")
 
         for item in JSdata : 
             print("id:", item["id"], "\nName:", item["name"], "\nPhone Number:", item["phone"], "\nEmail:", item["email"], "\n")
