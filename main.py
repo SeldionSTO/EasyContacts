@@ -17,14 +17,13 @@ if dict_choice == "1":
 elif dict_choice == "2":
     sel_dir = contacts("Emergency Directory", "data\emer.json")
 else:
-    print("Invalid directory choice. Please restart the program.")
+    print_error("Invalid directory choice. Please restart the program.")
     running = False
 
 
 menu_action = {"1" : sel_dir.new, "2" : sel_dir.search, "3": sel_dir.update, "4" : sel_dir.display}
 
 while running and sel_dir:
-    print("new intiration")
     user_choice = ui.menu(opt_lst)
 
     if user_choice in menu_action :
@@ -32,7 +31,7 @@ while running and sel_dir:
     elif user_choice == "q" :
         running = False
     else :  
-        print("You didn't enter a valid input")
+        print_error("You didn't enter a valid input")
     
     if running : 
         input("Press any key to go back to the menu\n")
