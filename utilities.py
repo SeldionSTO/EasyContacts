@@ -14,6 +14,8 @@ def print_style(size=4, type_I=None , msg = None) :
     else :
         print(line)
 
+def print_error(error_msg) :
+    print(f"\033[91m{error_msg}\033[0m")
 
 #simple email validator
 def is_email(email) :

@@ -28,12 +28,11 @@ class contacts :
     def new(self) : 
         JSdata = self.load_data()
         print_style()
-        name_inpt = input("Enter Name: ")
-        phone_inpt = input("Enter Phone Number: ")
-        email_inpt = input("Enter Email Address: ")
+        
+        user_input  = ui.form_person() 
 
-        if is_phone(phone_inpt) :
-            if is_email(email_inpt) :
+        if is_phone(user_input["phone"]) :
+            if is_email(user_input["email"]) :
                 saved_data = list()
                 id_lst = list()
 
@@ -45,21 +44,13 @@ class contacts :
                 if len(id_lst) >= 1 : id = max(id_lst) + 1 
                 else : id = 1
                 
-                contact = [
-                    {
-                        "id" : id,
-                        "name": name_inpt, 
-                        "phone": phone_inpt,
-                        "email": email_inpt
-                    }
-                ]
-
+                contact = [{"id" : id,"name": user_input["name"], "phone": user_input["phone"],"email": user_input["email"]}]
                 saved_data.append(contact[0])
                 self.save_data(saved_data)
             else :
-                print("\033[91mYou didn't enter a valid email\033[0m")
+                print_error("You didn't enter a valid email")
         else :
-            print("\033[91mYou didn't enter a valid phone nr\033[0m")
+            print_error("You didn't enter a valid phone nr")
         
 
     def search(self) :  

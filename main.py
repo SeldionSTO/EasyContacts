@@ -20,21 +20,15 @@ else:
     print("Invalid directory choice. Please restart the program.")
     running = False
 
+
+menu_action = {"1" : sel_dir.new, "2" : sel_dir.search, "3": sel_dir.update, "4" : sel_dir.display}
+
 while running and sel_dir:
+    print("new intiration")
     user_choice = ui.menu(opt_lst)
 
-    if user_choice == "1" :
-        sel_dir.new()
-    
-    elif user_choice == "2": 
-        sel_dir.search()
-    
-    elif user_choice == "3" : 
-        sel_dir.update()
-    
-    elif user_choice == "4" :
-        sel_dir.display()
-    
+    if user_choice in menu_action :
+        menu_action[user_choice]()
     elif user_choice == "q" :
         running = False
     else :  
