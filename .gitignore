@@ -3,3 +3,5 @@ data/contacts.json
 __pycache__/contacts.cpython-310.pyc
 __pycache__/ui.cpython-310.pyc
 __pycache__/utilities.cpython-310.pyc
+.vscode/settings.json
+data/emer.json
