@@ -1,11 +1,15 @@
 import json
-from ui import ui
+from ui import ui, Form
 from utilities import * 
 
 class contacts :
     def __init__(self, name,  dir_input) :
         self.savedir = dir_input
         self.name = name
+
+    def info(self) :
+        return self.savedir
+    
 
     def save_data(self, data_file: list, print_msg = False, msg = None) :
         with open(self.savedir, "w") as file :
@@ -29,7 +33,7 @@ class contacts :
         JSdata = self.load_data()
         print_style()
         
-        user_input  = ui.form_person() 
+        user_input  = Form.form_person() 
 
         if is_phone(user_input["phone"]) :
             if is_email(user_input["email"]) :
