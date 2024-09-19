@@ -86,7 +86,7 @@ class contacts :
             except :
                 print("Invalid ID")
                 break
-        if not found :
+        if not found :  
             print("Id: ", name_inpt, "not found!")
         else :
             print(f"You selected {JSdata[id_lc]['name']}")
