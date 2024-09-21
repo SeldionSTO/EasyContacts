@@ -33,3 +33,9 @@ def is_phone(phone_inpt) :
     else :
         valid = False      
     return valid
+
+def run_menu(obj) : 
+    while obj.active:
+        choice = obj.display()
+        action = obj.process(choice)
+    return action
