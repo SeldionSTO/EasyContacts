@@ -17,8 +17,11 @@ class Menu(ui) :
     
     def process(self, choice) :
             if choice in self.lst['actions'] :
-                self.active = False
-                return self.lst['actions'][choice]
+                if callable(self.lst['actions'][choice]) :
+                    return self.lst['actions'][choice]()
+                else :
+                    self.active = False
+                    return self.lst['actions'][choice]
             elif choice == "q" : 
                 self.active = False
             else:
