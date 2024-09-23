@@ -5,7 +5,7 @@ from utilities import *
 print_style(type_I="text_line",msg="Welcome to your contact list")
 
 dict_menu = Menu(True)
-dict_menu.lst = {"options" : ["1. Main Directory", "2. Emergency Directory"], "actions" : {"1" : contacts("Main Directory", "data\contacts.json"), "2" : contacts("Emergency Directory", "data\emer.json")}}
+dict_menu.lst = {"options" : ["1. Main Directory", "2. Emergency Directory"], "actions" : {"1" : contacts("Main Directory", r"data\contacts.json"), "2" : contacts("Emergency Directory", r"data\emer.json")}}
 selected_dir = run_menu(dict_menu)
 
 if selected_dir :
