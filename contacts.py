@@ -1,11 +1,15 @@
 import json
-from ui import ui
+from ui import ui, Menu, Form
 from utilities import * 
 
 class contacts :
     def __init__(self, name,  dir_input) :
         self.savedir = dir_input
         self.name = name
+
+    def info(self) :
+        return self.savedir
+    
 
     def save_data(self, data_file: list, print_msg = False, msg = None) :
         with open(self.savedir, "w") as file :
@@ -29,7 +33,7 @@ class contacts :
         JSdata = self.load_data()
         print_style()
         
-        user_input  = ui.form_person() 
+        user_input  = Form.form_person() 
 
         if is_phone(user_input["phone"]) :
             if is_email(user_input["email"]) :
@@ -44,8 +48,8 @@ class contacts :
                 if len(id_lst) >= 1 : id = max(id_lst) + 1 
                 else : id = 1
                 
-                contact = [{"id" : id,"name": user_input["name"], "phone": user_input["phone"],"email": user_input["email"]}]
-                saved_data.append(contact[0])
+                contact = {"id" : id,"name": user_input["name"], "phone": user_input["phone"],"email": user_input["email"]}
+                saved_data.append(contact)
                 self.save_data(saved_data)
             else :
                 print_error("You didn't enter a valid email")
@@ -86,16 +90,19 @@ class contacts :
             except :
                 print("Invalid ID")
                 break
-        if not found :
+        if not found :  
             print("Id: ", name_inpt, "not found!")
         else :
             print(f"You selected {JSdata[id_lc]['name']}")
-            update_method = ui.menu(["1. delete", "2. update"])
-            if update_method == "1" :
+            update_method = Menu(True)
+            update_method.lst = {"options" : ["1 for Delete", "2 for Update", "Q for going back"], "actions" : {"1" : "1", "2" : "2"}}
+            update_choice = run_menu(update_method)
+
+            if update_choice == "1" :
                     JSdata.pop(id_lc)
                     self.save_data(JSdata)
                     
-            elif update_method == "2" :
+            elif update_choice == "2" :
                     print("Type in the new value of what you want to change")
                     name = input("Name: ")
                     phone = input("Phone Number: ")
