@@ -17,8 +17,7 @@ The project is organized into several modules:
 
 - `main.py`: The main entry point that runs the application.
 - `ui.py`: Handles the user interface, including menu interactions and input collection.
-- `contact_manager.py`: Manages the logic for adding, updating, and deleting contacts.
-- `storage.py`: Handles saving and loading contacts to/from a file.
+- `contacts.py`: Manages the logic for adding, updating, and deleting contacts.
 - `utils.py`: Contains utilities for formatting and validating user inputs.
 
 ## Installation
